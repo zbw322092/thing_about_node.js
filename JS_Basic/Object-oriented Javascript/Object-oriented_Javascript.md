@@ -63,8 +63,44 @@ Whereas explicit function-based delegation does cover composition in JavaScript,
 
 As above state, prototype plays an important role in javascript inheritance. Let's make clear about javascript prototype object.
 
-  
 
+### Javascript Prototype Object
+In Javascript, constructor function plays the role of 'class' in some other OOP language like Java.
+``` javascript
+function Person() {
+  // it is a constructor function
+}
+
+// we create a new object via new command
+var person1 = new Person();
+
+// f constructor property points F constructor function.
+person1.constructor === Person;
+true
+```
+Preceding codes demonstrate what the 'constructor' object mean in JS object: constructor property points to 'who constructed me', or saying, 'where I come from'.
+
+Every function has a prototype property. The properties and methods defined on prototype object will be inherited by the object constructed by this constructor function.
+``` javascript
+Person.prototype.name = function(){
+  console.log(this.name)
+};
+
+var person2 = new Person();
+
+person2.name
+function (){
+  console.log(this.name)
+}
+
+person2.name === Person.prototype.name;
+true
+person2.name === person2.constructor.prototype.name;
+true
+person2.name === person2.constructor.name;
+false
+```
+As described above, constructor function prototype object acts as a 'template object', which would pass its properties and methods to the objects inherited from it. This feature is done by javascript inheritance mechanism implicitly.
 
 
 
