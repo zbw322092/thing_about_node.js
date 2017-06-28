@@ -194,7 +194,7 @@ Object can get access to properties and methods of constructor's prototype, howe
 Furthermore, when we modify the properties or methods defined on the prototype chain, the modification will be avaliable to all the object instances created from this constructor. 
 
 #### Javascript Inheritance Implementation
-Following code will demonstrate how to define a new constructor function, Person, which has some common properties and methods to be inherited, and based on this Person constructor, we extend two constructors which have individual properties and methods.
+Following code will demonstrate how to define a new constructor function, Person, which has some common properties and methods to be inherited, and based on this Person constructor, we extend a constructors which have individual properties and methods.
 ``` javascript
 // We define all properties in constructor itself. This make extending new constructor based on it easier.
 function Person(name, age, gender){
@@ -248,6 +248,11 @@ It is clear that student1 can not access to greeting method, since Student const
 // Define Student prototype, which inherit all method from Person.prototype.
 Student.prototype = Object.create(Person.prototype);
 
+// We can define new method in Student prototype object.
+Student.prototype.classmates = function() {
+  console.log(this.name + ' has ' + Math.floor(Math.random()*100) + ' classmates');
+}
+
 // Now we can see:
 Student.prototype;
 Person {}__proto__: Objectgreeting: function ()constructor: function Person(name, age, gender)__proto__: Object
@@ -263,9 +268,13 @@ var student2 = new Student('Jo', '20', 'male', 'Any School');
 // We can get access greeting method now
 student2.greeting();
 Hi Jo
+
+// classmates method
+student2.classmates();
+VM509:2 Jo has 87 classmates
 ```
-Now, close to task done, but we have the last problem to solve.
-We can find that `student2.constructor` points to `Person` which is not correspond to what we expect. We expect `student2.constructor` should points to `Student`. The reason of the problem is we do not specify `constructor` property in `Student.prototype`;
+Now, close to task done, but we still have the last problem to solve.
+We find that `student2.constructor` points to `Person` which is not correspond to what we expect. We expect `student2.constructor` should points to `Student`. The reason of the problem is we do not specify `constructor` property in `Student.prototype`;
 ``` javascript
 // Sloution of this problem is explictly defining constructor property in Student.prototye.
 Student.prototype.constructor = Student;
@@ -288,15 +297,21 @@ true
 
 References:
 [1] https://en.wikipedia.org/wiki/Inheritance_(object-oriented_programming)
+
 [2] https://en.wikipedia.org/wiki/Prototype-based_programming
+
 [3] https://en.wikipedia.org/wiki/Delegation_(object-oriented_programming)
+
 [4] https://en.wikipedia.org/wiki/JavaScript#Delegative
 
-ReadMore:
+Furthur Read:
 [1] https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object-oriented_JS#Object-oriented_programming_from_10000_meters
+
 [2] https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object_prototypes
+
 [3]
 https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Inheritance
+
 
 
 
