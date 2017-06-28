@@ -1,4 +1,21 @@
 # Object-oriented Javascript
+<!-- TOC -->
+
+- [Object-oriented Javascript](#object-oriented-javascript)
+  - [Inheritance](#inheritance)
+    - [What is Inheritance](#what-is-inheritance)
+    - [Inheritance in Javascript](#inheritance-in-javascript)
+      - [Prototype-based Language](#prototype-based-language)
+      - [Javascript Prototype Object](#javascript-prototype-object)
+      - [Javascript prototype chain](#javascript-prototype-chain)
+      - [Javascript Inheritance Implementation](#javascript-inheritance-implementation)
+      - [Object.create](#objectcreate)
+      - [Miscellaneous](#miscellaneous)
+
+<!-- /TOC -->
+
+<br/>
+<br/>
 Javascript is one Object-oriented programming(OOP) language. In Javascript, Object is building block of our program. 
 
 ## Inheritance
@@ -407,13 +424,16 @@ References:<br/>
 [3] https://en.wikipedia.org/wiki/Delegation_(object-oriented_programming)<br/>
 [4] https://en.wikipedia.org/wiki/JavaScript#Delegative<br/>
 [5] https://stackoverflow.com/questions/9959727/proto-vs-prototype-in-javascript<br/>
-[6] http://dmitrysoshnikov.com/ecmascript/javascript-the-core/
+[6] http://dmitrysoshnikov.com/ecmascript/javascript-the-core/<br/>
 
 
-Furthur Read:<br/>
+Further Read:<br/>
 [1] https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object-oriented_JS#Object-oriented_programming_from_10000_meters<br/>
 [2] https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object_prototypes<br/>
-[3] https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Inheritance
+[3] https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Inheritance<br/>
+[4] http://www.datchley.name/understanding-prototypes-delegation-composition/<br/>
+[5] http://javascriptissexy.com/oop-in-javascript-what-you-need-to-know/<br/>
+[6] http://javascriptissexy.com/javascript-prototype-in-plain-detailed-language/
 
 
 
