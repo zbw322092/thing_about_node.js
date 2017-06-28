@@ -64,7 +64,7 @@ Whereas explicit function-based delegation does cover composition in JavaScript,
 As above state, prototype plays an important role in javascript inheritance. Let's make clear about javascript prototype object.
 
 
-### Javascript Prototype Object
+#### Javascript Prototype Object
 In Javascript, constructor function plays the role of 'class' in some other OOP language like Java.
 ``` javascript
 function Person() {
@@ -88,7 +88,7 @@ Person.prototype.name = function(){
 
 var person2 = new Person();
 
-person2.name
+person2.name;
 function (){
   console.log(this.name)
 }
@@ -103,7 +103,7 @@ false
 As described above, constructor function prototype object acts as a 'template object', which the objects inherited from it would has its properties and methods. This feature is done by javascript inheritance mechanism implicitly and automatically.
 
 
-### Javascript prototype chain
+#### Javascript prototype chain
 The object created above not only can invoke the properties and methods of Person constructor, but also some other properties and methods, which defined in the constructor's prototype object of person2's constrcutor prototype object.
 It may mouthful, let's see several examples
 First of all, let's see what `__proto__` is
@@ -118,24 +118,24 @@ After revealed what `__proto__` is, we can explore the structure of prototype ch
 // person2 object itself:
 person2.age = 12;
 12
-person2
+person2;
 Person {age: 12}
 
 // layer 2. 
 // person2's constructor prototype. 
 // person2 is able to get access to properties and method in this object.
-person2.__proto__
+person2.__proto__;
 Object {name: function, constructor: function}
 
 // So now, let's think about, where the properties and methods in Person's prototype come from?
 // They come from itself and it's constructor's prototype.
 // It is layer 3.
-person2.__proto__.__proto__
+person2.__proto__.__proto__;
 Object {__defineGetter__: function, __defineSetter__: function, hasOwnProperty: function, __lookupGetter__: function, __lookupSetter__: function…}
 
 // the same logic above, let's see layer 4.
 // It is null.
-person2.__proto__.__proto__.__proto__
+person2.__proto__.__proto__.__proto__;
 null
 ``` 
 We have seen the prototype chain logic above. `person2` is able to get access all the properties and methods defined on its chain.
@@ -146,52 +146,157 @@ Also, we notice the endpoint of prototype chain is `null`. `null` is the endpoin
 var s = 'it is a string';
 undefined
 
-s.__proto__
+s.__proto__;
 String {length: 0, constructor: function, charAt: function, charCodeAt: function, concat: function…}
 
-s.__proto__.__proto__
+s.__proto__.__proto__;
 Object {__defineGetter__: function, __defineSetter__: function, hasOwnProperty: function, __lookupGetter__: function, __lookupSetter__: function…}constructor: function Object()hasOwnProperty: function hasOwnProperty()isPrototypeOf: function isPrototypeOf()propertyIsEnumerable: function propertyIsEnumerable()toLocaleString: function toLocaleString()toString: function toString()valueOf: function valueOf()__defineGetter__: function __defineGetter__()__defineSetter__: function __defineSetter__()__lookupGetter__: function __lookupGetter__()__lookupSetter__: function __lookupSetter__()get __proto__: function __proto__()set __proto__: function __proto__()
 
-s.__proto__.__proto__.__proto__
+s.__proto__.__proto__.__proto__;
 null
 
 // number
 var n = 12;
 undefined
 
-n.__proto__
+n.__proto__;
 Number {constructor: function, toExponential: function, toFixed: function, toPrecision: function, toString: function…}
 
-n.__proto__.__proto__
+n.__proto__.__proto__;
 Object {__defineGetter__: function, __defineSetter__: function, hasOwnProperty: function, __lookupGetter__: function, __lookupSetter__: function…}
 
-n.__proto__.__proto__.__proto__
+n.__proto__.__proto__.__proto__;
 null
 
 // Boolean
 var t = true;
 undefined
 
-t.__proto__
+t.__proto__;
 Boolean {[[PrimitiveValue]]: false, constructor: function, toString: function, valueOf: function}
 
-t.__proto__.__proto__
+t.__proto__.__proto__;
 Object {__defineGetter__: function, __defineSetter__: function, hasOwnProperty: function, __lookupGetter__: function, __lookupSetter__: function…}
 
-t.__proto__.__proto__.__proto__
+t.__proto__.__proto__.__proto__;
 null
 
 // the second last layer of prototype chain of above variables all points to the same prototype object
-s.__proto__.__proto__ === n.__proto__.__proto__
+s.__proto__.__proto__ === n.__proto__.__proto__;
 true
 
-s.__proto__.__proto__ === t.__proto__.__proto__
+s.__proto__.__proto__ === t.__proto__.__proto__;
 true
 ```
 
-Object can get access to properties and methods of constructor's prototype, however, it is not means that child object owned these properties and methods. They just get access to them, properties and methods will not be coyied or passed to them.
+Object can get access to properties and methods of constructor's prototype, however, it does not means that child object owned these properties and methods. They just get access to them(linked via prototype chain), properties and methods will not be coyied or passed to them.
 
-Furthermore, when we modify the properties or methods defined on the prototype chain, the modification will be avaliable to all the object instance created from this constructor. 
+Furthermore, when we modify the properties or methods defined on the prototype chain, the modification will be avaliable to all the object instances created from this constructor. 
+
+#### Javascript Inheritance Implementation
+Following code will demonstrate how to define a new constructor function, Person, which has some common properties and methods to be inherited, and based on this Person constructor, we extend two constructors which have individual properties and methods.
+``` javascript
+// We define all properties in constructor itself. This make extending new constructor based on it easier.
+function Person(name, age, gender){
+	this.name = name;
+	this.age = age;
+	this.gender = gender;
+}
+// We define all methods in constructor's prototype object.
+Person.prototype.greeting = function() {
+  console.log('Hi ' + this.name);
+};
+
+// Utill now, we can create a new instance object inherit from Person.
+var person1 = new Person('John', '23', 'male');
+
+person1;
+Person {name: "John", age: "23", gender: "male"}
+
+person1.greeting();
+Hi John
+
+// Notice, since we define properties on constructor itself with this key words, new created instance object will owne name, age and gender properties.
+```
+Well, now, we would like to create a new constructor called Student, which has similar properties and methods with Person.
+We may create this new constructor from zero, however, since we would like to follow the rule of code reuse, try to extending based on Person is a better way.
+``` javascript
+// The first parameter in call method set the which object 'this' keyword in Person function points to.
+function Student(name, age, gender, school) {
+	Person.call(this, name, age, gender);
+	this.school = school;
+}
+
+// At this point, we create a new object inherit from Student constructor
+var student1 = new Student('Bo', '25', 'male', 'Random School');
+
+student1
+Student {name: "Bo", age: "25", gender: "male", school: "Random School"}
+```
+
+But we have a problem now
+``` javascript
+student1.name;
+"Bo"
+
+student1.greeting;
+undefined
+```
+It is clear that student1 can not access to greeting method, since Student constructor do not inherit its prototype from Person prototype.
+
+``` javascript
+// Define Student prototype, which inherit all method from Person.prototype.
+Student.prototype = Object.create(Person.prototype);
+
+// Now we can see:
+Student.prototype;
+Person {}__proto__: Objectgreeting: function ()constructor: function Person(name, age, gender)__proto__: Object
+
+Student.prototype.greeting;
+function () {
+  console.log('Hi ' + this.name);
+}
+
+// Create a new object again
+var student2 = new Student('Jo', '20', 'male', 'Any School');
+
+// We can get access greeting method now
+student2.greeting();
+Hi Jo
+```
+Now, close to task done, but we have the last problem to solve.
+We can find that `student2.constructor` points to `Person` which is not correspond to what we expect. We expect `student2.constructor` should points to `Student`. The reason of the problem is we do not specify `constructor` property in `Student.prototype`;
+``` javascript
+// Sloution of this problem is explictly defining constructor property in Student.prototye.
+Student.prototype.constructor = Student;
+
+// Now, everything is ok
+student2.constructor === Student;
+true
+```
+
+
+
+
+
+
+
+
+
+
+
+
+References:
+[1] https://en.wikipedia.org/wiki/Inheritance_(object-oriented_programming)
+[2] https://en.wikipedia.org/wiki/Prototype-based_programming
+[3] https://en.wikipedia.org/wiki/Delegation_(object-oriented_programming)
+[4] https://en.wikipedia.org/wiki/JavaScript#Delegative
+
+ReadMore:
+[1] https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object-oriented_JS#Object-oriented_programming_from_10000_meters
+[2] https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object_prototypes
+[3]
+https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Inheritance
 
 
 
