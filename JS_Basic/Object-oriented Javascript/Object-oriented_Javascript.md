@@ -112,6 +112,9 @@ First of all, let's see what `__proto__` is
 person2.constructor.prototype === Person.prototype;
 true
 ```
+[To be exactly](https://stackoverflow.com/questions/9959727/proto-vs-prototype-in-javascript),
+> `__proto__` is the actual object that is used in the lookup chain to resolve methods, etc.
+
 After revealed what `__proto__` is, we can explore the structure of prototype chain.
 ``` javascript
 // layer 1. 
@@ -271,7 +274,7 @@ Hi Jo
 
 // classmates method
 student2.classmates();
-VM509:2 Jo has 87 classmates
+Jo has 87 classmates
 ```
 Now, close to task done, but we still have the last problem to solve.
 We find that `student2.constructor` points to `Person` which is not correspond to what we expect. We expect `student2.constructor` should points to `Student`. The reason of the problem is we do not specify `constructor` property in `Student.prototype`;
@@ -284,33 +287,133 @@ student2.constructor === Student;
 true
 ```
 
+#### Object.create
+`Object.create` example:
+``` javascript
+var a = {age: 24};
+var b = Object.create(a);
+
+b.__proto__ === a;
+==> true
+```
+
+As we can see, we create `b` based on `a`, and `b.__proto__` points to `a`. That's to say, we treat `a` as a contructor function's prototype.
+The `Object.create` method similar with the following process.
+``` javascript
+var a = {age: 24};
+
+function F(){};
+F.prototype = a;
+
+var b = new F();
+b.age;
+==> 24
+b.__proto__ === a;
+==> true
+```
+Furthermore, `Object.create` method can define properties on created owned object.
+``` javascript
+// a simple example
+var a = {age: 24};
+var b = Object.create(a, {name: {value: 'Irving'}});
+
+b;
+==> Object {name: "Irving"}
+```
+
+#### Miscellaneous
+Here are some miscellaneous points about javascript inheritance.
+1. We define a function in javascript, as we already know, this function has a prototype object. What's more, this prototype has constructor property, this property points to this function itself.
+``` javascript
+function f(){};
+
+f.prototype
+==> Object {constructor: function}
+      constructor:function f()
+      __proto__:Object
+
+f.prototype.constructor === f;
+==> true
+```
+
+2. As mentioned above, if we looking up variable's ( except `null` and `undefined` ) prototype chain via `__proto__`, We will encounter with a common object, that is `Object.prototype`.
+``` javascript
+// object
+var a = {};
+
+a.__proto__
+==> Object {__defineGetter__: function, __defineSetter__: function, hasOwnProperty: function, __lookupGetter__: function, __lookupSetter__: function…}
+
+a.__proto__ === Object.prototype;
+==> true
+
+// string
+var s = 'it is a string';
+
+s.__proto__.__proto__ === Object.prototype;
+==> true
+```
+That is to say, `Object` is a constructor function and all javascript variables inheritance methods from `Object`.
+
+Beside the methods defined in `Object.prototype`, we can also use some methods like:
+``` javascript
+Object.create();
+Object.keys();
+Object.entries();
+```
+These methods are defined in `Object` constructor function itself and them will not be inherited.
+
+We can use these method like follows:
+``` javascript
+var arr = ['bo', 'jo', 'john'];
+Object.keys.call(null, arr);
+==> (3) ["0", "1", "2"]
+```
+Similarly, javascript provides some ready to use constructor function.
+``` javascript
+var s = 'it is a string';
+s.__proto__ === String.prototype;
+==> true
+```
+
+3.
+Using a [diagram](http://dmitrysoshnikov.com/ecmascript/javascript-the-core/) to make `prototype`, `__proto__` and `constructor` concepts more clear.
+``` javascript
+// code from http://dmitrysoshnikov.com/ecmascript/javascript-the-core/
+function Foo(y) {
+  this.y = y;
+}
+Foo.prototype.x = 10;
+Foo.prototype.calculate = function (z) {
+  return this.x + this.y + z;
+};
+
+var b = new Foo(20);
+var c = new Foo(30);
+```
+<br/>
+
+![javascript constructor, prototype and __proto__ ](./md_images/Javascript_inheritance.png)
 
 
 
+<br/>
+<br/>
+<br/>
+<br/>
+References:<br/>
+[1] https://en.wikipedia.org/wiki/Inheritance_(object-oriented_programming)<br/>
+[2] https://en.wikipedia.org/wiki/Prototype-based_programming<br/>
+[3] https://en.wikipedia.org/wiki/Delegation_(object-oriented_programming)<br/>
+[4] https://en.wikipedia.org/wiki/JavaScript#Delegative<br/>
+[5] https://stackoverflow.com/questions/9959727/proto-vs-prototype-in-javascript<br/>
+[6] http://dmitrysoshnikov.com/ecmascript/javascript-the-core/
 
 
-
-
-
-
-
-
-References:
-[1] https://en.wikipedia.org/wiki/Inheritance_(object-oriented_programming)
-
-[2] https://en.wikipedia.org/wiki/Prototype-based_programming
-
-[3] https://en.wikipedia.org/wiki/Delegation_(object-oriented_programming)
-
-[4] https://en.wikipedia.org/wiki/JavaScript#Delegative
-
-Furthur Read:
-[1] https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object-oriented_JS#Object-oriented_programming_from_10000_meters
-
-[2] https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object_prototypes
-
-[3]
-https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Inheritance
+Furthur Read:<br/>
+[1] https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object-oriented_JS#Object-oriented_programming_from_10000_meters<br/>
+[2] https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object_prototypes<br/>
+[3] https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Inheritance
 
 
 
