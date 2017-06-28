@@ -74,11 +74,11 @@ function Person() {
 // we create a new object via new command
 var person1 = new Person();
 
-// f constructor property points F constructor function.
+// person1 constructor property points to Persion constructor function.
 person1.constructor === Person;
 true
 ```
-Preceding codes demonstrate what the 'constructor' object mean in JS object: constructor property points to 'who constructed me', or saying, 'where I come from'.
+Preceding codes demonstrate what the 'constructor' property mean in JS: object constructor property points to 'who constructed me', or saying, 'where I come from'.
 
 Every function has a prototype property. The properties and methods defined on prototype object will be inherited by the object constructed by this constructor function.
 ``` javascript
@@ -100,7 +100,103 @@ true
 person2.name === person2.constructor.name;
 false
 ```
-As described above, constructor function prototype object acts as a 'template object', which would pass its properties and methods to the objects inherited from it. This feature is done by javascript inheritance mechanism implicitly.
+As described above, constructor function prototype object acts as a 'template object', which the objects inherited from it would has its properties and methods. This feature is done by javascript inheritance mechanism implicitly and automatically.
+
+
+### Javascript prototype chain
+The object created above not only can invoke the properties and methods of Person constructor, but also some other properties and methods, which defined in the constructor's prototype object of person2's constrcutor prototype object.
+It may mouthful, let's see several examples
+First of all, let's see what `__proto__` is
+``` javascript
+// __proto__ is a short cut which points to constructor's prototype object.
+person2.constructor.prototype === Person.prototype;
+true
+```
+After revealed what `__proto__` is, we can explore the structure of prototype chain.
+``` javascript
+// layer 1. 
+// person2 object itself:
+person2.age = 12;
+12
+person2
+Person {age: 12}
+
+// layer 2. 
+// person2's constructor prototype. 
+// person2 is able to get access to properties and method in this object.
+person2.__proto__
+Object {name: function, constructor: function}
+
+// So now, let's think about, where the properties and methods in Person's prototype come from?
+// They come from itself and it's constructor's prototype.
+// It is layer 3.
+person2.__proto__.__proto__
+Object {__defineGetter__: function, __defineSetter__: function, hasOwnProperty: function, __lookupGetter__: function, __lookupSetter__: function…}
+
+// the same logic above, let's see layer 4.
+// It is null.
+person2.__proto__.__proto__.__proto__
+null
+``` 
+We have seen the prototype chain logic above. `person2` is able to get access all the properties and methods defined on its chain.
+
+Also, we notice the endpoint of prototype chain is `null`. `null` is the endpoint of all javascript variables except `null` and `undefined`.
+``` javascript
+// string
+var s = 'it is a string';
+undefined
+
+s.__proto__
+String {length: 0, constructor: function, charAt: function, charCodeAt: function, concat: function…}
+
+s.__proto__.__proto__
+Object {__defineGetter__: function, __defineSetter__: function, hasOwnProperty: function, __lookupGetter__: function, __lookupSetter__: function…}constructor: function Object()hasOwnProperty: function hasOwnProperty()isPrototypeOf: function isPrototypeOf()propertyIsEnumerable: function propertyIsEnumerable()toLocaleString: function toLocaleString()toString: function toString()valueOf: function valueOf()__defineGetter__: function __defineGetter__()__defineSetter__: function __defineSetter__()__lookupGetter__: function __lookupGetter__()__lookupSetter__: function __lookupSetter__()get __proto__: function __proto__()set __proto__: function __proto__()
+
+s.__proto__.__proto__.__proto__
+null
+
+// number
+var n = 12;
+undefined
+
+n.__proto__
+Number {constructor: function, toExponential: function, toFixed: function, toPrecision: function, toString: function…}
+
+n.__proto__.__proto__
+Object {__defineGetter__: function, __defineSetter__: function, hasOwnProperty: function, __lookupGetter__: function, __lookupSetter__: function…}
+
+n.__proto__.__proto__.__proto__
+null
+
+// Boolean
+var t = true;
+undefined
+
+t.__proto__
+Boolean {[[PrimitiveValue]]: false, constructor: function, toString: function, valueOf: function}
+
+t.__proto__.__proto__
+Object {__defineGetter__: function, __defineSetter__: function, hasOwnProperty: function, __lookupGetter__: function, __lookupSetter__: function…}
+
+t.__proto__.__proto__.__proto__
+null
+
+// the second last layer of prototype chain of above variables all points to the same prototype object
+s.__proto__.__proto__ === n.__proto__.__proto__
+true
+
+s.__proto__.__proto__ === t.__proto__.__proto__
+true
+```
+
+Object can get access to properties and methods of constructor's prototype, however, it is not means that child object owned these properties and methods. They just get access to them, properties and methods will not be coyied or passed to them.
+
+Furthermore, when we modify the properties or methods defined on the prototype chain, the modification will be avaliable to all the object instance created from this constructor. 
+
+
+
+
+
 
 
 
