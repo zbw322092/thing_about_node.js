@@ -427,7 +427,7 @@ References:<br/>
 [6] http://dmitrysoshnikov.com/ecmascript/javascript-the-core/<br/>
 
 
-Further Read:<br/>
+Further Reading:<br/>
 [1] https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object-oriented_JS#Object-oriented_programming_from_10000_meters<br/>
 [2] https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object_prototypes<br/>
 [3] https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Inheritance<br/>
