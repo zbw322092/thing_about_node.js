@@ -55,7 +55,7 @@ window.f();
 // Since f is invoked by window object, this keyword points to it.
 ```
 
-### `this` in callback function
+### `this` in closure
 An example:
 ``` javascript
 // click method in o accept a callback function
@@ -81,8 +81,36 @@ o2.sayhi()
 o.click(o2.sayhi)
 ==> hi  // something tricky happens
 ```
-When we invoke `sayhi` method in `o` method, context will change, and in this case(`o.click(o2.sayhi)`), `this` ponits to `window` object.
+When we invoke `sayhi` method in `o` object, context will change, and in this case(`o.click(o2.sayhi)`), `this` ponits to `window` object.
 
+One more example:
+``` javascript
+var o = {
+  m1: function() {
+    (function() {
+      console.log(this)
+    })()
+  },
+  m2: function(cb) {
+    cb()
+  },
+  m3: function() {
+    console.log(this)
+  }
+};
+
+o.m1();
+==> window object
+
+o.m2(function(){
+	console.log(this)
+});
+==> window.object
+
+o.m3();
+==> Object {m1: function, m2: function, m3: function}
+// it is clear that only the 'this' in third method which does not have closure, points to 'o' object.
+```
 
 Well, if we would like to prevent what we saw happen, here is the solution:
 ``` javascript
@@ -93,6 +121,40 @@ o.click(o2.sayhi.bind(o));
 ==> hi  John
 // well done. we will explain bind,apply and call method in another post.
 ```
+
+### Sign method with `this` keyword to other variable
+``` javascript
+var name = 'Jo';
+var o = {
+	name: 'Bo',
+	sayhi: function() {
+		console.log('hi ', this.name);
+	}
+};
+
+o.sayhi()
+==> hi  Bo
+
+// now, we sign 'o.sayhi' method to an variable and then call it;
+var greeting = o.sayhi;
+
+greeting()
+==> hi  Jo
+```
+
+Since we signed method to `greeting` and call the method in different scope, `this` points to different object.
+
+Solution is using `bind` method to explicitly tell `this` which object it should point to.
+``` javascript
+var greeting = o.sayhi.bind(o);
+
+greeting();
+==> hi  Bo
+```
+
+
+
+
 
 
 
