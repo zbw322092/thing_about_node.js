@@ -152,6 +152,33 @@ greeting();
 ==> hi  Bo
 ```
 
+### `this` when borrowing method
+``` javascript
+var o = {
+	name: 'Bo',
+	sayhi: function() {
+		console.log('hi ', this.name);
+	}
+};
+
+var me = {
+  name: 'Jo',
+  greeting: null,
+  greetingAgain: null
+};
+
+me.greeting = o.sayhi;
+
+me.greeting();
+==> hi Jo
+
+me.greetingAgain = o.say();
+me.greetingAgain;
+==> hi Bo
+```
+As we can see, if we sign a method in object A to a method of object B, and executing the newly signed method, `this` key word in the method will point to object B.
+
+
 
 
 
