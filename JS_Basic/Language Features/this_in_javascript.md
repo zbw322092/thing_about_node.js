@@ -1,4 +1,19 @@
 # this in Javascript
+<!-- TOC -->
+
+- [this in Javascript](#this-in-javascript)
+  - [What `this` stands for](#what-this-stands-for)
+  - [More(tricky) `this` examples](#moretricky-this-examples)
+    - [`this` ponits to global object](#this-ponits-to-global-object)
+    - [`this` in closure](#this-in-closure)
+    - [Sign method with `this` keyword to other variable](#sign-method-with-this-keyword-to-other-variable)
+    - [`this` when borrowing method](#this-when-borrowing-method)
+
+<!-- /TOC -->
+
+<br/>
+<br/>
+
 To understand `this` keyword in javascrip, let's begin from an simple example:
 'Bo is my brother, he is 24 years old'.
 In the above sentence, we use 'he' to represent 'Bo'. We can still use 'Bo' in the later sentence, but it is not the most succinct way.
