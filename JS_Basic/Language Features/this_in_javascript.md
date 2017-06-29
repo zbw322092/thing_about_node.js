@@ -1,7 +1,7 @@
-# this in Javascript
+# `this` in Javascript
 <!-- TOC -->
 
-- [this in Javascript](#this-in-javascript)
+- [`this` in Javascript](#this-in-javascript)
   - [What `this` stands for](#what-this-stands-for)
   - [More(tricky) `this` examples](#moretricky-this-examples)
     - [`this` ponits to global object](#this-ponits-to-global-object)
