@@ -6,17 +6,17 @@ Similarly, in javascript `this` keyword points to the subject of the executing c
 
 ## What `this` stands for
 Thanks for the [clear explanation](http://javascriptissexy.com/understand-javascripts-this-with-clarity-and-master-it/) about `this` from _http://javascriptissexy.com/_.
->the `this` keyword is similarly used to **refer to an object that the function (where this is used) is bound to**. The this keyword not only refers to the object but it also contains the value of the object.
-...
-when a function executes, it gets the `this` property—**a variable with the value of the object that invokes the function where this is used**.
-...
-The `this` reference **ALWAYS refers to (and holds the value of) an object**—a singular object—and it is usually used inside a function or a method
-...
-`this` is used inside a function (let’s say function A) and it contains the value of the object that **invokes function A**. We need `this` to access methods and properties of **the object that invokes function A**, especially since we don’t always know the name of the invoking object, and sometimes there is no name to use to refer to the invoking object. Indeed, this is really just a shortcut reference for the “antecedent object”—**the invoking object**.
-...
+>the `this` keyword is similarly used to **refer to an object that the function (where this is used) is bound to**. The this keyword not only refers to the object but it also contains the value of the object.<br/>
+...<br/>
+when a function executes, it gets the `this` property—**a variable with the value of the object that invokes the function where this is used**.<br/>
+...<br/>
+The `this` reference **ALWAYS refers to (and holds the value of) an object**—a singular object—and it is usually used inside a function or a method<br/>
+...<br/>
+`this` is used inside a function (let’s say function A) and it contains the value of the object that **invokes function A**. We need `this` to access methods and properties of **the object that invokes function A**, especially since we don’t always know the name of the invoking object, and sometimes there is no name to use to refer to the invoking object. Indeed, this is really just a shortcut reference for the “antecedent object”—**the invoking object**.<br/>
+...<br/>
 **`this` is not assigned a value until an object invokes the function where `this` is defined**
 
-The sum up above statement:
+Summing up above statement:
 **`this` key word is usually defined in a function, it points to the object which invokes the function and it also holds values of the object.**
 
 Several simple examples:
@@ -52,7 +52,7 @@ function f() {
 // when execute f() is equivalent to following code:
 window.f();
 
-// Since f is invoked by widnow object, this keyword points to it.
+// Since f is invoked by window object, this keyword points to it.
 ```
 
 ### `this` in callback function
@@ -79,19 +79,21 @@ o2.sayhi()
 ==> hi  bo // just as what we expect
 
 o.click(o2.sayhi)
-==> hi John // something tricky happens
+==> hi  // something tricky happens
 ```
+When we invoke `sayhi` method in `o` method, context will change, and in this case(`o.click(o2.sayhi)`), `this` ponits to `window` object.
 
-Let's explain what happened in above code.
-When we invoke `sayhi` like this: `o2.sayhi()`, `this` in `sayhi` method just represents the function which invoke it, yes, it is `o2`. So, the returned result is `hi  bo`.
-However, when we pass `o2.sayhi` as callback to `o.click`, `this` keyword points to different context. Although we invoke `sayhi` on `o2`, but `o2.sayhi()` is treated as just as a normal method and be invoked by `o.click` as a whole. So, `this` in `o2.sayhi` is ponits to `o` now.
 
 Well, if we would like to prevent what we saw happen, here is the solution:
 ``` javascript
 o.click(o2.sayhi.bind(o2));
 ==> hi  bo
+
+o.click(o2.sayhi.bind(o));
+==> hi  John
 // well done. we will explain bind,apply and call method in another post.
 ```
+
 
 
 
