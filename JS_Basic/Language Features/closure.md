@@ -126,6 +126,91 @@ s
 ```
 The difference is, in closure, even the local variable is primitive value, it is kept by reference.
 
+## local variables will be updated every time outer function be called
+Slightly change an preceding example
+``` javascript
+function f() {
+  var count = 1;
+  return {
+    set: function (num) {
+      count = num;
+    },
+    get: function () {
+      console.log(count);
+    }
+  }
+}
+
+f().get();
+==> 1
+
+f().set(12);
+
+f().get();
+==> 1 // still 1, not 12
+```
+When we second time executing `f().get()`, the returned value is still `1`, it is due to that when we executing `f().get()` we call `f()` again and the local variables are reset.
+
+## closure in loop
+Thing becomes tricky when mix closure and loop. Caution about that.
+``` javascript
+function f() {
+  var obj = {};
+  for (var i = 0; i < 6; i++) {
+    obj[i] = function loopNow() {
+      return i
+    }
+  }
+  return obj;
+}
+
+var result = f();
+result[0]();
+==> 6 // whoops...
+```
+
+What happened above? `loopNow` is a closure which get access to variable `i` via reference. When we execute `loopNow` by `result[0]()`, `i` has already changed to `6`. Yes, `i` is accessed via reference, so it is 6 now.
+
+Now, solution of that -- invoke closure immediately! Or, saying, Immediately Invoked Function Expression (IIFE).
+
+``` javascript
+// modify the above function
+function f() {
+  var obj = {};
+  for (var i = 0; i < 6; i++) {
+    obj[i] = (function loopNow() {
+      return i
+    })();
+  }
+  return obj;
+}
+
+var result = f();
+result[0];
+==> 0
+result[1]
+==> 1
+...
+
+// or, we can modify like this:
+function f() {
+  var obj = {};
+  for (var i = 0; i < 6; i++) {
+    function loopNow() {
+      return i
+    }
+    obj[i] = loopNow();
+  }
+  return obj;
+}
+
+// the same as above
+var result = f();
+result[0];
+==> 0
+result[1]
+==> 1
+```
 
 
 
