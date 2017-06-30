@@ -10,6 +10,7 @@ To understand closure features easiler, we will explain it through examples.
 ## closures have access to outer function's variables
 A simple example:
 ``` javascript
+// example one
 function f(name) {
   var greeting = 'hi';
   function sayhi() {
@@ -20,8 +21,33 @@ function f(name) {
 
 f('Bo')
 ==> hi Bo
+
+
+// example two
+function f() {
+	function sayhi(){
+		console.log(name)
+	}
+	var name = 'Jo'
+	return sayhi;
+}
+
+f()();
+==> Jo
+
+// example three
+function f() {
+	function sayhi(){
+		console.log(name)
+	}
+	sayhi();
+	var name = 'Jo'
+}
+
+f();
+==> undefined
 ```
-Preceding very simple example just demonstrates us the basic rule: closures have access to outer function's variables.
+Preceding very simple examples just demonstrate us the basic rule: closures have access to outer function's variables.
 
 ## closures have access to outer function's variables even after the outer function has returned
 ``` javascript
@@ -45,8 +71,60 @@ It is a language feature, I not very clearly understand what happened internally
 
 Another related [answer](https://stackoverflow.com/questions/25642341/how-do-closures-have-access-to-the-outer-functions-variables-even-after-the-out).
 
+## closure kept local variables by references
+``` javascript
+function f() {
+  var count = 1;
+  return {
+    set: function (num) {
+      count = num;
+    },
+    get: function () {
+      console.log(count);
+    }
+  }
+}
+
+var test = f(); // At this point, outer function has returned.
+
+test.get();
+==> 1
+
+test.set(12);
+test.get();
+==> 12
+```
+`test.set(12);` sign a new value to `num`, and `num` is kept by reference in closure, so this operation will affect `test.get();` result.
+
+It is just like following simple example:
+``` javascript
+var o = {
+	name: 'Jo'
+};
+
+// n keep reference to o
+var n = o;
+
+n.name = 'Bo';
+"Bo"
+
+o
+Object {name: "Bo"}
 
 
+// sign primitive value to a new variable
+var s = 'well';
+
+var ns = s;
+
+ns = 'ok'
+"ok"
+
+// s will not be change
+s
+"well"
+```
+The difference is, in closure, even the local variable is primitive value, it is kept by reference.
 
 
 
