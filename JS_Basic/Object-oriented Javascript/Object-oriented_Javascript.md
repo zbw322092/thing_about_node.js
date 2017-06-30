@@ -425,7 +425,7 @@ References:<br/>
 [4] https://en.wikipedia.org/wiki/JavaScript#Delegative<br/>
 [5] https://stackoverflow.com/questions/9959727/proto-vs-prototype-in-javascript<br/>
 [6] http://dmitrysoshnikov.com/ecmascript/javascript-the-core/<br/>
-
+<br/>
 
 Further Reading:<br/>
 [1] https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object-oriented_JS#Object-oriented_programming_from_10000_meters<br/>

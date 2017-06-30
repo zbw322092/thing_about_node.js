@@ -1,4 +1,14 @@
 # Closure
+<!-- TOC -->
+
+- [Closure](#closure)
+  - [closures have access to outer function's variables](#closures-have-access-to-outer-functions-variables)
+  - [closures have access to outer function's variables even after the outer function has returned](#closures-have-access-to-outer-functions-variables-even-after-the-outer-function-has-returned)
+  - [closures keep local variables by references](#closures-keep-local-variables-by-references)
+  - [local variables will be updated every time outer function be called](#local-variables-will-be-updated-every-time-outer-function-be-called)
+  - [closure in loop](#closure-in-loop)
+
+<!-- /TOC -->
 
 To explain what closure is more comprehensively and precisely, I found [a great article](http://www.jibbering.com/faq/faq_notes/closures.html) and grabbed the definition about closure from it.
 > A "closure" is an expression (typically a function) that can have free variables together with an environment that binds those variables (that "closes" the expression).<br/>
@@ -71,7 +81,7 @@ It is a language feature, I not very clearly understand what happened internally
 
 Another related [answer](https://stackoverflow.com/questions/25642341/how-do-closures-have-access-to-the-outer-functions-variables-even-after-the-out).
 
-## closure kept local variables by references
+## closures keep local variables by references
 ``` javascript
 function f() {
   var count = 1;
@@ -171,7 +181,7 @@ result[0]();
 
 What happened above? `loopNow` is a closure which get access to variable `i` via reference. When we execute `loopNow` by `result[0]()`, `i` has already changed to `6`. Yes, `i` is accessed via reference, so it is 6 now.
 
-Now, solution of that -- invoke closure immediately! Or, saying, Immediately Invoked Function Expression (IIFE).
+Now, solution for that -- invoke closure immediately! Or, saying, Immediately Invoked Function Expression (IIFE).
 
 ``` javascript
 // modify the above function
@@ -213,4 +223,18 @@ result[1]
 ```
 
 
+<br/>
+<br/>
+<br/>
+<br/>
+References:<br/>
+[1] http://www.jibbering.com/faq/faq_notes/closures.html<br/>
+[2] https://stackoverflow.com/questions/111102/how-do-javascript-closures-work<br/>
+[3] https://stackoverflow.com/questions/25642341/how-do-closures-have-access-to-the-outer-functions-variables-even-after-the-out<br/>
+[4] http://javascriptissexy.com/understand-javascript-closures-with-ease/<br/>
+<br/>
 
+Further Reading:<br/>
+[1] http://www.crockford.com/javascript/private.html<br/>
+[2] https://en.wikipedia.org/wiki/First-class_citizen<br/>
+[3] https://en.wikipedia.org/wiki/Non-local_variable
