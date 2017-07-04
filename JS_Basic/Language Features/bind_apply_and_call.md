@@ -109,6 +109,36 @@ var obj = {
 obj.yourname(function(){console.log(this.name)})
 ==> 'Jo'
 ```
+#### borrow method which contains `this`
+Methods can be passed around in javascript, however, some methods contain `this` keywords, which will cause problems if we just use these methods in other object directly. We are be able to solve this kind of problems using `bind()`.
+
+``` javascript
+var obj = {
+  name: 'Bo',
+  yourname: function() {
+    console.log(this.name);
+  }
+};
+
+var obj2 = {
+  name: 'Jo'
+};
+
+// Now we want add a method to obj2 which would also console the name value in obj2.
+obj2.myname = obj.yourname;
+
+obj2.myname();
+==> 'Jo' // it's not the name value in obj2.
+
+
+// also, we solve this problem using bind()
+obj2.myname = obj.yourname.bind(obj2);
+
+obj2.myname();
+==> 'Jo'
+```
+
+
 <br/>
 
 Notice, if a function or method does not contain `this` in it, the newly created by `bind` method(just set the first parameters) will work no difference with the origin one.
