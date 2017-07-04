@@ -50,6 +50,53 @@ getYourname();
 
 Problem solved.
 
+Notice, if a function or method does not contain `this` in it, the newly created by `bind` method(just set the first parameters) will work no difference with the origin one.
+``` javascript
+var obj2 = {
+  name: 'Jo',
+  yourname: function() {
+    console.log(obj2.name);
+  }
+};
+
+obj2.yourname();
+==> 'Jo'
+
+// bind to window object
+var getYourname = obj2.yourname.bind(window);
+
+getYourname();
+==> 'Jo'
+```
+### Curry a funtion
+[Function Currying](http://javascriptissexy.com/javascript-apply-call-and-bind-methods-are-essential-for-javascript-professionals/):
+> Function Currying, also known as partial function application, is the use of a function (that accept one or more arguments) that returns a new function with some of the arguments already set.
+
+``` javascript
+// simple example
+function greet(greeting, gender, name) {
+  console.log(greeting + ' ' + gender + ' ' + name);
+}
+
+// we can simply use it directly
+greet('hi', 'Mr.', 'Jo');
+==> hi Mr. Jo
+
+// or, we can preset some parameter values using bind method
+// preset the first parameter
+var sayHello = greet.bind(null, 'Hello');
+
+sayHello('Mr.', 'Bo');
+==> Hello Mr. Bo
+
+// preset the second parameter
+var greetingLady = greet.bind(null, null, 'Miss');
+
+greetingLady('Hi', 'Lily');
+==> null Miss Hi // we cannot skip the first parameter to set the later parameters
+```
+
+
 
 
 
