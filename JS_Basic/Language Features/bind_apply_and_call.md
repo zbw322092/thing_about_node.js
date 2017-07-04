@@ -18,6 +18,7 @@ Actually, MDN has stated the definition of `bind`, `apply` and `call` methods fa
 ## bind()
 
 ### create function with specified `this` target object
+#### normal case
 A simple example where `this` keyword performs trickly.
 ``` javascript
 var name = 'Bo'
@@ -49,6 +50,66 @@ getYourname();
 ```
 
 Problem solved.
+
+#### `this` in closure
+Another circumstances which `this` will do its job is set `this` pointed object in closure.
+``` javascript
+var name = 'Bo';
+var obj = {
+  name: 'Jo',
+  yourname: function() {
+    setTimeout(function() {
+      console.log(this.name);
+    }, 2000);
+  }
+};
+
+obj.yourname();
+==> Bo
+```
+
+In the above example, when the function which in `setTimeout` method executes, the context has been changed to `window` object.
+
+Solution:
+``` javascript
+var name = 'Bo';
+var obj = {
+  name: 'Jo',
+  yourname: function() {
+    setTimeout(function() {
+      console.log(this.name);
+    }.bind(obj), 2000);
+  }
+};
+
+obj.name()
+==> Jo
+```
+Another example to demonstrate.
+``` javascript
+var name = 'Bo';
+var obj = {
+  name: 'Jo',
+  yourname: function(cb) {
+    cb()
+  }
+};
+
+obj.yourname(function(){console.log(this.name)});
+==> 'Bo'
+
+// Solution is similar.
+var obj = {
+  name: 'Jo',
+  yourname: function(cb) {
+    cb().bind(obj)();
+  }
+};
+
+obj.yourname(function(){console.log(this.name)})
+==> 'Jo'
+```
+<br/>
 
 Notice, if a function or method does not contain `this` in it, the newly created by `bind` method(just set the first parameters) will work no difference with the origin one.
 ``` javascript
