@@ -255,7 +255,7 @@ In the above example, we set the first parameter in `apply()` method as `null`, 
 
 ### Borrow method using `apply()` and `call()`
 Just like what we demonstrate above, we can borrow some native javascript method and use them in somewhere we need. Also, we can just borrow normal methods when necessary.
-Since specified `this` target object and passing into proper parameters are two key tasks in method borrowing, `apply()` or `call()` will do their job.
+Since specified `this` target object and passing into proper parameters are two key tasks in method borrowing, `apply()` or `call()` will do their jobs.
 ``` javascript
 // borrow array method and use it on string
 Array.prototype.slice.call('itisastring', 0, 2);
@@ -281,7 +281,7 @@ obj.greeting.call(obj2, 'Miss.');
 ==> Miss. Lily // job done
 ```
 
-I just list some simple examples above to demonstrate how `apply()` and `call()` should be used. `apply()` and `call()` can be used in various places in our code and they are make javascript more flexible and productive.
+I just list some simple examples above to demonstrate how `apply()` and `call()` should be used. `apply()` and `call()` can be used in various places in our code and they make javascript more flexible and productive.
 
 
 
