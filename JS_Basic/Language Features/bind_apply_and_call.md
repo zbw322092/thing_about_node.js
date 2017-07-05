@@ -187,6 +187,55 @@ greetingLady('Hi', 'Lily');
 ==> null Miss Hi // we cannot skip the first parameter to set the later parameters
 ```
 
+## apply() and call()
+`apply()` and `call()` works similarly, them both 
+> call a function with a given this value and arguments
+
+They are just different in the way of passing parameters. Parameters are passed as array in `apply()` method, while in `call()`, parameters are passed individually.
+
+Notice, `bind()` method will return a new function which specified `this` target object, However, `apply()` and `call()` will not return a new function, they execute function.
+
+### Set `this` explicitly
+We solve problem using `bind()` method in first example in this post. Apparently, we can solve the example one problem using `apply()` and `call()`.
+``` javascript
+var name = 'Bo'
+var obj = {
+  name: 'Jo',
+  yourname: function () {
+    console.log(this.name)
+  }
+};
+
+var nameValue = obj.yourname;
+nameValue();
+==> 'Bo'
+
+// solution:
+nameValue.apply(obj);
+==> Jo
+nameValue.call(obj);
+==> Jo
+```
+
+When we do not pass parameters into methods, `apply` and `call` just work the same.
+
+### pass parameters using `apply()` and `call()`
+Under some situation, the emphasis of `apply()` and `call()` do not fall on making `this` target object clear, they are able to help us pass some parameters into functions.
+``` javascript
+// We can use some Math methods directly just like this:
+Math.max(1,2,5,4,0);
+==> 5
+
+// Now, we have an array, which contains a series of numbers, and we would like to pick out the maxium number. apply() method can help.
+var arr = [1,2,5,4,0];
+Math.max(arr);
+==> NaN
+
+Math.max.apply(null, arr);
+==> 5 // working!
+```
+In the above example, we set the first parameter in `apply()` method as `null`, since no `this` key word in `Math.max`, which need us to specified its target object. We just passed in parameters and it works.
+
 
 
 
