@@ -1,4 +1,21 @@
 # bind apply and call methods in Javascript
+<!-- TOC -->
+
+- [bind apply and call methods in Javascript](#bind-apply-and-call-methods-in-javascript)
+  - [Definitions](#definitions)
+  - [bind()](#bind)
+    - [create function with specified `this` target object](#create-function-with-specified-this-target-object)
+      - [normal case](#normal-case)
+      - [`this` in closure](#this-in-closure)
+      - [borrow method which contains `this`](#borrow-method-which-contains-this)
+    - [Curry a funtion](#curry-a-funtion)
+  - [apply() and call()](#apply-and-call)
+    - [Set `this` explicitly](#set-this-explicitly)
+    - [pass parameters using `apply()` and `call()`](#pass-parameters-using-apply-and-call)
+    - [Borrow method using `apply()` and `call()`](#borrow-method-using-apply-and-call)
+
+<!-- /TOC -->
+<br/>
 
 `bind`, `apply` and `call` are three methods defined on `Function.prototype`. These three methods work similarily and they are all work closely with `this` and context.
 
@@ -235,6 +252,41 @@ Math.max.apply(null, arr);
 ==> 5 // working!
 ```
 In the above example, we set the first parameter in `apply()` method as `null`, since no `this` key word in `Math.max`, which need us to specified its target object. We just passed in parameters and it works.
+
+### Borrow method using `apply()` and `call()`
+Just like what we demonstrate above, we can borrow some native javascript method and use them in somewhere we need. Also, we can just borrow normal methods when necessary.
+Since specified `this` target object and passing into proper parameters are two key tasks in method borrowing, `apply()` or `call()` will do their job.
+``` javascript
+// borrow array method and use it on string
+Array.prototype.slice.call('itisastring', 0, 2);
+==> ["i", "t"]
+
+// borrow self defined method
+var obj = {
+  name: 'Jo',
+  greeting: function(gender) {
+    console.log(gender + ' ' + this.name);
+  }
+};
+
+obj.greeting('Mr.');
+==> Mr. Jo
+
+// now, we borrow it.
+var obj2 = {
+  name: 'Lily'
+};
+
+obj.greeting.call(obj2, 'Miss.');
+==> Miss. Lily // job done
+```
+
+I just list some simple examples above to demonstrate how `apply()` and `call()` should be used. `apply()` and `call()` can be used in various places in our code and they are make javascript more flexible and productive.
+
+
+
+
+
 
 
 
