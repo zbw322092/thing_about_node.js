@@ -285,6 +285,21 @@ I just list some simple examples above to demonstrate how `apply()` and `call()`
 
 
 
+<br/>
+<br/>
+<br/>
+<br/>
+References:<br/>
+[1] https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind<br/>
+[2] https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/apply<br/>
+[3] https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call<br/>
+[4] http://javascriptissexy.com/javascript-apply-call-and-bind-methods-are-essential-for-javascript-professionals/
+
+
+
+
+
+
 
 
 
