@@ -59,6 +59,24 @@ https://nodejs.org/dist/latest-v8.x/docs/api/child_process.html#child_process_ch
 > The `options.stdio` option is used to configure the **pipes** that are established **between the parent and child process**.
 
 
+### The `execFile` function
+> If you need to execute a **file** without using a shell, the execFile function is what you need.
+
+### The `fork()` function
+
+`child_process.fork(modulePath[, args][, options])`
+https://nodejs.org/dist/latest-v8.x/docs/api/child_process.html#child_process_child_process_fork_modulepath_args_options
+
+> The `child_process.fork()` method is a special case of `child_process.spawn()` used specifically to spawn new Node.js processes. Like `child_process.spawn()`, a `ChildProcess` object is returned. The returned `ChildProcess` will have an additional communication channel built-in that allows messages to be passed back and forth between the parent and child. See `subprocess.send()` for details.
+
+> It is important to keep in mind that spawned Node.js child processes are **independent of the parent** with exception of the IPC communication channel that is established between the two. Each process **has its own memory**, with **their own V8 instances**. Because of the additional resource allocations required, spawning a large number of child Node.js processes is not recommended.
+
+
+
+
+
+
+
 
 
 
