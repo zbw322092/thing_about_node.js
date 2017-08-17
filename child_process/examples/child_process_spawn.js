@@ -22,4 +22,14 @@ wc2.stdout.on('data', (data) => {
 });
 
 
+// example 3
+// run this example and check child process using `ps -ef | grep timer` command
+const child = spawn('node', ['timer.js'], {
+  detached: true,
+  stdio: 'ignore'
+});
+
+child.unref();
+
+
 
