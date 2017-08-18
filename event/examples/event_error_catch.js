@@ -24,3 +24,9 @@ withTime.execute(fs.readFile, __filename);
 withTime.on('error', (err) => {
   console.log(err);
 });
+
+// handle 'uncaughtException' globally is not recommend.
+// process.on('uncaughtException', (err) => {
+//   console.error(err);
+//   // process.exit(1);
+// });
