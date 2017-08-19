@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Blocking</title>
+  </head>
+  <body>
+    <button id="ajaxButton" type="button">Make a request</button>
+    <button id="alertButton" type=button>Alert Something</button>
+
+    <script>
+      (function() {
+        let httpRequest;
+        let alertCount = 0;
+
+        document.getElementById('ajaxButton').addEventListener('click', makeRequest);
+        document.getElementById('alertButton').addEventListener('click', makeAlert);
+
+        function makeRequest() {
+          httpRequest = new XMLHttpRequest();
+
+          if (!httpRequest) {
+            alert('Giving up :( Cannot create an XMLHTTP instance');
+            return false;
+          }
+
+          httpRequest.onreadystatechange = getContents;
+          httpRequest.open('GET', 'sync', false);
+          httpRequest.send();
+        }
+
+        function getContents() {
+          if (httpRequest.readyState === XMLHttpRequest.DONE) {
+            if (httpRequest.status === 200) {
+              console.log(httpRequest.responseText);
+            } else {
+              console.log('There was a problem with the request.');
+            }
+          }
+        }
+
+        function makeAlert() {
+          ++alertCount;
+          window.alert(`Alert Times: ${alertCount}`);
+        }
+
+      })();
+
+    </script>
+  </body>
+</html>
