@@ -65,3 +65,24 @@ myEmitter.emit('something-happened');
 > Just like plain-old callbacks, do not assume that events mean synchronous or asynchronous code.
 
 ### Asynchronous Events
+
+### Events Arguments and Errors
+
+``` javascript
+this.emit('error', err);
+
+this.emit('data', data);
+```
+
+> The `error` event is usually a special one. In our callback-based example, if we don’t handle the error event with a listener, the **node process will actually exit**.
+
+> The `EventEmitter` module exposes a `once` method. This method signals to invoke the listener just once, not every time it happens.
+
+
+### Order of Listeners
+> If we register multiple listeners for the same event, the invocation of those listeners will be in order. 
+
+We can use `emitter.prependListener(eventName, listener)` add the listener function to the beginning of the listeners array
+
+https://nodejs.org/dist/latest-v8.x/docs/api/events.html#events_emitter_prependlistener_eventname_listener
+
