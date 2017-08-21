@@ -28,3 +28,24 @@ https://nodejs.org/dist/latest-v8.x/docs/api/process.html#process_process_stdin
 A note on process I/O
 https://nodejs.org/dist/latest-v8.x/docs/api/process.html#process_a_note_on_process_i_o
 
+
+### process.argv, process.argv0, process.execPath
+https://nodejs.org/dist/latest-v8.x/docs/api/process.html#process_process_argv
+`process.argv`
+The process.argv property returns an **array** containing the **command line arguments** passed when the Node.js process was **launched**.
+First element
+  process.execPath
+Second
+  the path to the JavaScript file being executed
+Remaining
+  any additional command line arguments
+
+
+`process.argv0`
+The process.argv0 property stores a **read-only copy** of the original value of **`argv[0]`** passed when Node.js starts.
+
+`process.execPath`
+https://nodejs.org/dist/latest-v8.x/docs/api/process.html#process_process_execpath
+
+The `process.execPath` property returns the **absolute pathname** of the **executable** that **started the Node.js process**.
+
